@@ -1,7 +1,7 @@
 import React from "react";
 
 import { IoIosSettings } from "react-icons/io";
-import logo from "../../assets/wsa-logo.jpg";
+import logo from "../../assets/music.png";
 import "../../css/sidemenu/SideMenu.css";
 import { CiUser } from "react-icons/ci";
 import { AiOutlineHome, AiOutlineSearch, AiOutlineHeart } from "react-icons/ai";
@@ -45,7 +45,7 @@ const SideMenu = ({ setView, view, onOpenEditProfile }) => {
       <aside className="sidemenu-root">
         {/* Logo */}
         <div className="sidemenu-header">
-          <img src={logo} alt="wsa-logo" className="sidemenu-logo-img" />
+          <img src={logo} alt="music-logo" className="sidemenu-logo-img" />
           <h2 className="sidemenu-logo-title">Raag</h2>
         </div>
         {/* Navigation */}
