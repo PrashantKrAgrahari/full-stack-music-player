@@ -10,16 +10,36 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// ====================================================
-// ✅ FIXED CORS SETUP (Copy this exactly)
-// ====================================================
+// --- 1. THE MANUAL CORS HANDSHAKE (MUST BE FIRST) ---
+app.use((req, res, next) => {
+    // Replace with your exact frontend URL
+    const origin = req.headers.origin;
+    const allowedOrigins = ["https://raag-music-player.vercel.app", "http://localhost:5173"];
+    
+    if (allowedOrigins.includes(origin)) {
+        res.header("Access-Control-Allow-Origin", origin);
+    }
+    
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    res.header("Access-Control-Allow-Credentials", "true");
+
+    // Immediately respond to the 'OPTIONS' pre-check handshake
+    if (req.method === "OPTIONS") {
+        return res.status(200).end();
+    }
+    next();
+});
+
+// --- 2. Standard Middleware ---
 app.use(cors({
-    origin: true,  // This automatically allows the frontend URL
+    origin: ["https://raag-music-player.vercel.app", "http://localhost:5173"],
     credentials: true
 }));
 
-app.options('*', cors());
-// ====================================================
+
+
+
 
 app.use(express.json());
 
