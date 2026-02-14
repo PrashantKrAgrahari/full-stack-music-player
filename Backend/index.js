@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(cors({
     origin: [
         "http://localhost:5173", 
-        "https://your-vercel-project-name.vercel.app" // REPLACE with your actual Vercel URL later
+        "https://raag-music-player.vercel.app/" // REPLACE with your actual Vercel URL later
     ],
     credentials: true
 }));
