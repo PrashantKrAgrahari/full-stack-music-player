@@ -11,31 +11,26 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // --- 1. THE MANUAL CORS HANDSHAKE (MUST BE FIRST) ---
+// --- THE EMERGENCY HANDSHAKE FIX ---
 app.use((req, res, next) => {
-    // Replace with your exact frontend URL
-    const origin = req.headers.origin;
-    const allowedOrigins = ["https://raag-music-player.vercel.app", "http://localhost:5173"];
-    
-    if (allowedOrigins.includes(origin)) {
-        res.header("Access-Control-Allow-Origin", origin);
-    }
-    
+    // Allows any origin (including your Vercel URL) to connect
+    res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     res.header("Access-Control-Allow-Credentials", "true");
 
-    // Immediately respond to the 'OPTIONS' pre-check handshake
+    // Immediately kills the pre-flight check with a "YES"
     if (req.method === "OPTIONS") {
-        return res.status(200).end();
+        return res.status(200).send();
     }
     next();
 });
 
 // --- 2. Standard Middleware ---
-app.use(cors({
+/*app.use(cors({
     origin: ["https://raag-music-player.vercel.app", "http://localhost:5173"],
     credentials: true
-}));
+})); */
 
 
 
