@@ -17,6 +17,8 @@ app.use(cors({
     origin: true,  // This automatically allows the frontend URL
     credentials: true
 }));
+
+app.options('*', cors());
 // ====================================================
 
 app.use(express.json());
