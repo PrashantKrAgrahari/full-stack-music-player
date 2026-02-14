@@ -5,39 +5,40 @@ import connectDB from "./config/connectDB.js";
 import router from "./routes/authRoutes.js";
 import songRouter from "./routes/songRoutes.js";
 
-dotenv.config(); // Simplified config call
+dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-// 2. Updated CORS for Production
-// Once you deploy your frontend to Vercel, add that URL to this array
+// ====================================================
+// ✅ FIXED CORS SETUP (Copy this exactly)
+// ====================================================
 app.use(cors({
-    origin: [
-        "http://localhost:5173", 
-        "https://raag-music-player.vercel.app" // REPLACE with your actual Vercel URL later
-    ],
+    origin: true,  // This automatically allows the frontend URL
     credentials: true
 }));
-
-const PORT = process.env.PORT || 5001;
-
-// 1. Connect your Database
-connectDB();
+// ====================================================
 
 app.use(express.json());
 
+// Connect to Database
+connectDB();
 
-
-// 3. Health Check Route (Useful for Render to see if your app is "Alive")
+// Test Route
 app.get("/", (req, res) => {
-    res.status(200).json({ message: "Music App Backend is running" });
+    res.send("Backend is working!");
 });
 
 // Routes
 app.use("/api/songs", songRouter);
 app.use("/api/auth", router);
 
-// 4. Bind to 0.0.0.0 for Render compatibility
+// Error Handling (Prevents server crashes)
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ message: "Internal Server Error" });
+});
+
 app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server is running on Port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
