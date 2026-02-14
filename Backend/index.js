@@ -8,12 +8,6 @@ import songRouter from "./routes/songRoutes.js";
 dotenv.config(); // Simplified config call
 
 const app = express();
-const PORT = process.env.PORT || 5001;
-
-// 1. Connect your Database
-connectDB();
-
-app.use(express.json());
 
 // 2. Updated CORS for Production
 // Once you deploy your frontend to Vercel, add that URL to this array
@@ -24,6 +18,15 @@ app.use(cors({
     ],
     credentials: true
 }));
+
+const PORT = process.env.PORT || 5001;
+
+// 1. Connect your Database
+connectDB();
+
+app.use(express.json());
+
+
 
 // 3. Health Check Route (Useful for Render to see if your app is "Alive")
 app.get("/", (req, res) => {
