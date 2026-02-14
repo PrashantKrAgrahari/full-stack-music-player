@@ -18,7 +18,7 @@ const getSongs = async (req, res) => {
                 include: "musicinfo", // Recommended for extra metadata
             }
         });
-        res.status(200).json(response.data);
+        res.status(200).json(response.data.results);
     } catch (error) {
         console.error("Jamendo Fetch Error:", error.message);
         res.status(500).json({ message: "Could not fetch songs from Jamendo" });
@@ -40,7 +40,7 @@ const searchSongs = async (req, res) => {
             }
         });
 
-        res.status(200).json(response.data);
+        res.status(200).json(response.data.results);
     } catch (error) {
         console.error("Search error:", error.message);
         res.status(500).json({ message: "Search failed" });
