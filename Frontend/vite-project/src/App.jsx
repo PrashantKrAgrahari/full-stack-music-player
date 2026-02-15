@@ -1,10 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react"; // Added useState
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Homepage from "./pages/Homepage";
-// import Login from "./pages/Login";
-// import Register from "./pages/Register";
-
 import "./App.css";
 import { useDispatch, useSelector } from "react-redux";
 import { clearError, logout, setError, setLoading, setUser } from "./redux/slices/authSlice";
@@ -14,9 +11,12 @@ import Signup from "./components/auth/Signup";
 import ResetPassword from "./components/auth/ResetPassword";
 
 function App() {
-
    const dispatch = useDispatch();
    const {token, user} = useSelector((state) => state.auth);
+   
+   // --- MOBILE MENU STATE ---
+   const [isMenuOpen, setIsMenuOpen] = useState(false);
+   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
    useEffect(()=> {
      const storedToken = token || localStorage.getItem("token");
@@ -46,16 +46,25 @@ function App() {
      fetchUser();
    },[dispatch, token, user]);
 
-
   return (
     <BrowserRouter>
+      {/* --- MOBILE HAMBURGER BUTTON --- */}
+      {/* This button stays fixed so you can always open the menu */}
+      <button className="mobile-menu-toggle" onClick={toggleMenu}>
+        {isMenuOpen ? "✕" : "☰"}
+      </button>
+
+      {/* --- OVERLAY --- */}
+      {/* Dimmed background when menu is open */}
+      {isMenuOpen && <div className="menu-overlay" onClick={toggleMenu}></div>}
+
       <Routes>
-        {/* Home */}
-       {<Route path="/" element={<Homepage />} /> }
-        { /*<Route path="/" element={<Signup />} /> */}
-         <Route path ="/reset-password/:token" element={<ResetPassword />} />
-        {/* <Route path="/login" element={<Login />} /> */}
-        {/* <Route path="/register" element={<Register />} /> */}
+        {/* Pass state to Homepage so it can tell SideMenu to slide in */}
+        <Route 
+          path="/" 
+          element={<Homepage isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />} 
+        /> 
+        <Route path ="/reset-password/:token" element={<ResetPassword />} />
       </Routes>
     </BrowserRouter>
   );

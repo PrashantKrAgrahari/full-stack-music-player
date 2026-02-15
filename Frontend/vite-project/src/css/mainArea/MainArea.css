@@ -6,3 +6,52 @@
 .mainarea-scroll {
   @apply flex-1 min-h-0 overflow-hidden;
 }
+
+/* By default, both are visible */
+.home-playlist-wrapper, 
+.library-playlist-wrapper {
+  display: block;
+}
+
+/* On Mobile Devices Only */
+@media (max-width: 768px) {
+  /* HIDE playlists on the Home view */
+  .home-playlist-wrapper {
+    display: none !important;
+  }
+
+  /* SHOW playlists on the Library view */
+  .library-playlist-wrapper {
+    display: block !important;
+    width: 100%;
+  }
+
+  library-playlist-wrapper, 
+  .library-playlist-wrapper > div {
+    height: auto !important;
+    min-height: min-content !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+
+  /* 2. Target the actual playlist-container class inside the component */
+  .library-playlist-wrapper .playlist-container {
+    display: flex !important;
+    flex-wrap: wrap !important; /* Ensure it wraps into multiple rows */
+    gap: 16px !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding-bottom: 40px !important; /* Small buffer */
+  }
+
+  /* 3. Ensure every single playlist card is visible */
+  .library-playlist-wrapper .playlist-card {
+    flex: 0 0 calc(50% - 8px) !important; /* Two items per row */
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+}
+
+

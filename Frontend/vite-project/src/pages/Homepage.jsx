@@ -10,7 +10,8 @@ import Modal from "../components/common/Modal";
 import EditProfile from "../components/auth/EditProfile";
 import { setUser } from "../redux/slices/authSlice";
 
-const Homepage = () => {
+// Catch isMenuOpen and toggleMenu props from App.jsx
+const Homepage = ({ isMenuOpen, toggleMenu }) => {
   const [view, setView] = useState("home");
   const [songs, setSongs] = useState([]);
   const [searchSongs, setSearchSongs] = useState([]);
@@ -19,12 +20,10 @@ const Homepage = () => {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  // 1. CRITICAL: Define the list BEFORE passing it to the hook
   const songsToDisplay = view === "favourite" 
     ? (auth.user?.favourites || []) 
     : (view === "search" ? searchSongs : songs);
 
-  // 2. Pass the dynamic list to your hook
   const { 
     audioRef, currentIndex, currentSong, isPlaying, currentTime, duration, 
     isMuted, loopEnabled, shuffleEnabled, playbackSpeed, volume, 
@@ -34,7 +33,6 @@ const Homepage = () => {
     handleChangeVolume 
   } = useAudioPlayer(songsToDisplay);
 
-  // 3. Normalized Favourite Toggle
   const handleToggleFavourite = async (song) => {
     if (!auth.token) return alert("Please login");
     try {
@@ -54,7 +52,6 @@ const Homepage = () => {
     }
   };
 
-  // 4. Playback synchronization effect
   useEffect(() => {
     if (audioRef.current) {
       if (isPlaying && currentSong) {
@@ -65,7 +62,6 @@ const Homepage = () => {
     }
   }, [isPlaying, currentSong, audioRef]);
 
-  // 5. Fetching initial songs
   useEffect(() => {
     const fetchInitialSongs = async () => {
       try {
@@ -79,16 +75,28 @@ const Homepage = () => {
   }, []);
 
   const handleSelectSong = (index) => {
-    console.log("Attempting to play index:", index);
     playSongatIndex(index);
+    // On mobile, if a song is selected, close the menu to see the player
+    if(window.innerWidth <= 768 && isMenuOpen) toggleMenu();
   };
 
   const loadPlaylist = async (tag) => {
-    try {
-      const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/songs/playlistByTag/${tag}`);
-      setSongs(res.data.results || []);
-    } catch (err) { console.error(err); }
-  };
+  try {
+    const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/songs/playlistByTag/${tag}`);
+    
+    // 1. Set the songs from the API
+    setSongs(res.data.results || []);
+    
+    // 2. IMPORTANT: Switch view back to 'home' so the song list becomes visible
+    setView("home"); 
+    
+    // 3. Optional: Scroll to top so the user sees the new list
+    window.scrollTo(0, 0);
+
+  } catch (err) {
+    console.error("Error loading playlist:", err);
+  }
+};
 
   const playerState = { currentSong, isPlaying, currentTime, duration, isMuted, loopEnabled, playbackSpeed, shuffleEnabled, volume };
   const playerControls = { playSongatIndex, handleTogglePlay, handleNext, handlePrev, handleSeek };
@@ -104,9 +112,16 @@ const Homepage = () => {
         onEnded={handleEnded} 
       />
       <div className="homepage-main-wrapper">
-        <div className="homepage-sidebar">
-          <SideMenu setView={setView} view={view} onOpenEditProfile={() => setOpenEditProfile(true)} />
+        {/* Pass the mobile state to SideMenu */}
+        <div className={`homepage-sidebar ${isMenuOpen ? "active" : ""}`}>
+          <SideMenu 
+            setView={setView} 
+            view={view} 
+            onOpenEditProfile={() => setOpenEditProfile(true)} 
+            toggleMenu={toggleMenu} // Pass toggle to close it when links are clicked
+          />
         </div>
+        
         <div className="homepage-content">
           <MainArea 
             view={view} 
@@ -120,6 +135,7 @@ const Homepage = () => {
         </div>
       </div>
       <Footer playerState={playerState} playerControls={playerControls} playerFeatures={playerFeatures} />
+      
       {openEditProfile && (
         <Modal onClose={() => setOpenEditProfile(false)}>
           <EditProfile onClose={() => setOpenEditProfile(false)} />

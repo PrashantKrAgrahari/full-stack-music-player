@@ -1,270 +1,147 @@
+/* --- 1. BASE STYLING (Laptop/Desktop) --- */
 .sidemenu-root {
-  @apply w-[280px] p-4 box-border flex flex-col h-full text-white bg-transparent gap-6;
+  @apply w-[280px] p-5 box-border flex flex-col h-full text-white gap-8;
+  background: rgba(15, 15, 15, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
 }
 
 .sidemenu-header {
-  @apply flex items-center gap-3 px-2 py-4;
-  animation: slideInLeft 0.6s ease-out;
-}
-
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  @apply flex items-center gap-4 px-2 py-6;
 }
 
 .sidemenu-logo-img {
-  @apply w-11 h-11 rounded-xl object-cover;
-  background: linear-gradient(
-    135deg,
-    rgba(168, 85, 247, 0.3),
-    rgba(236, 72, 153, 0.3)
-  );
-  border: 2px solid rgba(168, 85, 247, 0.3);
-  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.2);
-  transition: all 0.3s ease;
-}
-
-.sidemenu-logo-img:hover {
-  transform: scale(1.05) rotate(2deg);
-  box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
-  border-color: rgba(168, 85, 247, 0.5);
+  width: 42px !important;
+  height: 42px !important;
+  @apply rounded-xl shadow-lg;
+  border: 1.5px solid rgba(168, 85, 247, 0.4);
 }
 
 .sidemenu-logo-title {
-  @apply m-0 text-xl font-bold;
+  @apply m-0 font-bold tracking-tight;
+  font-size: 1.6rem !important;
   background: linear-gradient(135deg, #a855f7, #ec4899);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: 0.5px;
 }
 
-.sidemenu-nav {
-  @apply flex-1;
-}
-
+/* --- 2. NAVIGATION OPTIONS (The Clarity Update) --- */
 .sidemenu-nav-list {
-  @apply list-none p-0 flex flex-col gap-2;
-  animation: fadeInUp 0.6s ease-out 0.2s both;
+  @apply list-none p-0 m-0 flex flex-col gap-2;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* NAV BUTTON (base) */
 .sidemenu-nav-btn {
-  @apply flex items-center gap-4
-    bg-transparent border-none
-    p-3.5 px-4
-    cursor-pointer
-    text-gray-300 text-left
-    w-full rounded-xl
-    transition-all duration-300
-    text-[15px] font-medium
-    relative overflow-hidden
-    focus:outline-none;
+  @apply flex items-center gap-4 bg-transparent border-none py-3 px-4
+         cursor-pointer text-gray-400 text-left w-full rounded-xl
+         transition-all duration-300 relative;
+  font-size: 15px;
+  font-weight: 500;
 }
 
-/* Hover glow effect background */
-.sidemenu-nav-btn::before {
+/* Hover State */
+.sidemenu-nav-btn:hover {
+  @apply text-white;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Active State - The "Purple Glow" Look */
+.sidemenu-nav-btn.active {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(236, 72, 153, 0.15));
+  color: #fff !important;
+}
+
+/* Active Indicator (Vertical Bar) */
+.sidemenu-nav-btn.active::before {
   content: "";
   position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(168, 85, 247, 0.1),
-    rgba(236, 72, 153, 0.1)
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  border-radius: 0.75rem;
-}
-
-.sidemenu-nav-btn:hover::before {
-  opacity: 1;
-}
-
-.sidemenu-nav-btn:hover {
-  @apply text-white transform translate-x-1;
-  background: rgba(255, 255, 255, 0.05);
-  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.15);
+  left: 0;
+  top: 25%;
+  height: 50%;
+  width: 4px;
+  background: #a855f7;
+  border-radius: 0 4px 4px 0;
+  box-shadow: 0 0 10px #a855f7;
 }
 
 .sidemenu-nav-icon {
-  @apply relative z-10;
-  transition: transform 0.3s ease;
+  @apply transition-transform duration-300;
+  color: inherit;
 }
 
 .sidemenu-nav-btn:hover .sidemenu-nav-icon {
   transform: scale(1.1);
-}
-
-.sidemenu-nav-btn span {
-  @apply relative z-10;
-}
-
-/* ACTIVE STATE */
-.sidemenu-nav-btn.active {
-  background: linear-gradient(
-    135deg,
-    rgba(168, 85, 247, 0.25),
-    rgba(236, 72, 153, 0.25)
-  );
-  border: 1px solid rgba(168, 85, 247, 0.4);
-  @apply text-white shadow-lg;
-  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3),
-    0 0 40px rgba(168, 85, 247, 0.1) inset;
-  transform: translateX(2px);
-}
-
-.sidemenu-nav-btn.active::before {
-  opacity: 0;
-}
-
-.sidemenu-nav-btn.active .sidemenu-nav-icon {
   color: #a855f7;
-  filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.6));
 }
 
-/* PROFILE SECTION */
-.sidemenu-profile-row {
-  @apply flex items-center gap-3 p-3 rounded-xl;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
-  animation: fadeIn 0.6s ease-out 0.4s both;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.sidemenu-profile-row:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(168, 85, 247, 0.3);
-  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.1);
-}
-
-.sidemenu-avatar-img {
-  @apply w-12 h-12 rounded-xl object-cover;
-  border: 2px solid rgba(168, 85, 247, 0.3);
-  box-shadow: 0 2px 10px rgba(168, 85, 247, 0.2);
-  transition: all 0.3s ease;
-}
-
-.sidemenu-avatar-img:hover {
-  transform: scale(1.05);
-  border-color: rgba(168, 85, 247, 0.5);
-  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
-}
-
-.profile-placeholder {
-  @apply w-12 h-12 rounded-xl flex items-center justify-center;
-  background: linear-gradient(
-    135deg,
-    rgba(168, 85, 247, 0.2),
-    rgba(236, 72, 153, 0.2)
-  );
-  border: 2px solid rgba(168, 85, 247, 0.3);
-  color: rgba(168, 85, 247, 0.8);
-  transition: all 0.3s ease;
-}
-
-.profile-placeholder:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(168, 85, 247, 0.3),
-    rgba(236, 72, 153, 0.3)
-  );
-  border-color: rgba(168, 85, 247, 0.5);
-  transform: scale(1.05);
-}
-
-.sidemenu-username-wrapper {
-  @apply flex-1;
-}
-
-.sidemenu-username {
-  @apply text-sm font-semibold text-white overflow-hidden text-ellipsis whitespace-nowrap;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-}
-
-.settings-container {
-  @apply flex items-center;
-}
-
-.sidemenu-settings-btn {
-  @apply bg-transparent border-none cursor-pointer p-2 text-gray-400 
-         rounded-lg transition-all duration-300;
-  position: relative;
-  z-index: 1;
-}
-
-.sidemenu-settings-btn:hover {
-  @apply text-white bg-white/10;
-  box-shadow: 0 2px 10px rgba(168, 85, 247, 0.2);
-}
-
-.sidemenu-settings-btn svg {
-  transition: transform 0.3s ease;
-  display: block;
-}
-
-.sidemenu-settings-btn:hover svg {
-  transform: rotate(90deg);
-}
-
-.sidemenu-settings-btn:active {
-  transform: scale(0.95);
-}
-
-/* Responsive Design */
+/* --- 3. MOBILE OVERRIDE --- */
 @media (max-width: 768px) {
   .sidemenu-root {
-    @apply w-[70px] p-2 gap-4;
+    position: fixed !important;
+    left: -280px;
+    top: 0;
+    height: 100vh !important;
+    width: 280px !important;
+    z-index: 5000 !important;
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: #09090b !important; 
+    padding-bottom: 250px !important; 
+  }
+
+  .homepage-sidebar.active .sidemenu-root {
+    left: 0 !important;
+    box-shadow: 20px 0 60px rgba(0, 0, 0, 0.8);
   }
 
   .sidemenu-header {
-    @apply flex-col gap-2 px-0;
-  }
-
-  .sidemenu-logo-title {
-    @apply hidden;
-  }
-
-  .sidemenu-nav-btn span {
-    @apply hidden;
+    margin-top: 40px !important;
+    padding-left: 20px !important;
   }
 
   .sidemenu-nav-btn {
-    @apply justify-center p-3;
+    padding: 14px 20px !important; /* Larger hit area for fingers */
+    gap: 18px !important;
   }
 
-  .sidemenu-username {
-    @apply hidden;
+  .mobile-only-nav {
+    display: flex !important;
   }
 
+  /* PINNED PROFILE */
   .sidemenu-profile-row {
-    @apply flex-col p-2 gap-2;
+    /* Change from absolute to relative to stay in the flow */
+  position: relative;
+  bottom: auto !important; /* Reset the 500px offset */
+  left: auto !important;
+  right: auto !important;
+  
+  /* Matches the width of your other nav buttons */
+  width: 100% !important;
+  margin-top: 10px !important; /* Small gap below Favourite */
+  
+  /* Keeping your styling but making it fit the list better */
+  padding: 12px 16px !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  
+  /* Smooth hover effect */
+  transition: all 0.3s ease;
+  cursor: pointer;
   }
+
+
+  .sidemenu-profile-row:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+}
+
+@media (min-width: 769px) {
+  .mobile-only-nav { display: none !important; }
 }

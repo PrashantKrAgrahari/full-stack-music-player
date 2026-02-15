@@ -16,6 +16,7 @@ const Auth = () => {
   return (
     <>
       <div className="auth-container">
+        
         {!isAuthenticated ? (
           <>
             <button

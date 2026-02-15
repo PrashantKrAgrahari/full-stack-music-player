@@ -1,7 +1,7 @@
 import React from "react";
 import "../../css/mainArea/Playlist.css";
 
-const Playlist = ({onSelectTag}) => {
+const Playlist = ({ onSelectTag }) => {
   const items = [
     {
       id: 1,
@@ -37,13 +37,29 @@ const Playlist = ({onSelectTag}) => {
 
   return (
     <div className="playlist-root">
-      <h1 className="playlist-title">Playlists</h1>
+      <h2 className="playlist-title">Your Playlists</h2>
 
       <div className="playlist-wrapper">
         <div className="playlist-grid">
           {items.map((item) => (
-            <div className="playlist-card" key={item.id} onClick={()=> onSelectTag(item.tag)}>
-              <img src={item.img} alt={item.label} className="playlist-image" />
+            <div 
+              className="playlist-card" 
+              key={item.id} 
+              onClick={(e) => {
+                // Prevent the click event from bubbling up to parents (like the Sidebar toggle)
+                e.stopPropagation(); 
+                console.log("Loading Playlist:", item.tag);
+                onSelectTag(item.tag);
+              }}
+            >
+              <div className="playlist-image-container">
+                <img 
+                  src={item.img} 
+                  alt={item.label} 
+                  className="playlist-image" 
+                  loading="lazy" 
+                />
+              </div>
               <h4 className="playlist-label">{item.label}</h4>
             </div>
           ))}

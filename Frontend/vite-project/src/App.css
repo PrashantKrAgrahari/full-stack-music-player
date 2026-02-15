@@ -193,3 +193,46 @@
 .animate-pulse-slow {
   animation: pulse 3s ease-in-out infinite;
 }
+
+
+.mobile-menu-toggle {
+  display: none !important; /* Forces it to stay hidden on laptop/desktop */
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 2500;
+  
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  color: white;
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+  cursor: pointer;
+  
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(236, 72, 153, 0.5);
+}
+
+/* 2. Mobile State: Only show on screens smaller than 768px */
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: flex !important;
+    /* Move to the right */
+    width: 38px !important;   /* Smaller size */
+    height: 38px !important;  /* Smaller size */
+    font-size: 18px !important; /* Smaller icon */
+    top: 12px !important;
+    left: auto !important;
+    border-radius: 10px !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+  }
+}
